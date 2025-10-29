@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements BillingServiceCli
               isProductFound.set(true);
               productName = productDetails.getName();
               productDescription = productDetails.getDescription();
+              productDescription = productDescription.replace("\n", "");
               movieTitle.setText(productName);
               movieDesc.setText(R.string.default_movie_desc);
 

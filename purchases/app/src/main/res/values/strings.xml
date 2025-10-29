@@ -30,6 +30,6 @@
     <string name="codelab">Codelab</string>
     <string name="licenses">Licenses</string>
     <string name="github_url" translatable="false">https://github.com/googlesamples/play-billing-samples</string>
-    <string name="codelab_url" translatable="false">https://developers.google.com/codelabs/play-billing-analyze-product-purchase-drop-offs</string>
+    <string name="codelab_url" translatable="false">https://codelabs.developers.google.com/play-billing-analyze-product-purchase-drop-offs</string>
 
 </resources>

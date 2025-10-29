@@ -156,8 +156,7 @@ public class MainActivity extends AppCompatActivity implements BillingServiceCli
         titleView.setText(productDetails.getName());
         descView.setText(productDetails.getDescription());
 
-        int imageResId = getResources().getIdentifier(productId, "drawable", getPackageName());
-        productImageView.setImageResource(imageResId);
+        productImageView.setImageResource(getDrawableProductImageForProductId(productId));
 
         String formattedPrice =
                 Objects.requireNonNull(productDetails.getOneTimePurchaseOfferDetails()).getFormattedPrice();
@@ -180,4 +179,13 @@ public class MainActivity extends AppCompatActivity implements BillingServiceCli
               });
   }
 
+  private int getDrawableProductImageForProductId(String productId) {
+      return switch (productId) {
+        case ONE_TIME_PRODUCT_01 -> R.drawable.one_time_product_01;
+        case CONSUMABLE_PRODUCT_01 -> R.drawable.consumable_product_01;
+        case CONSUMABLE_PRODUCT_02 -> R.drawable.consumable_product_02;
+        case CONSUMABLE_PRODUCT_03 -> R.drawable.consumable_product_03;
+        default -> 0;
+      };
+  }
 }

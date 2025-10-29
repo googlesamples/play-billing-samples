@@ -42,5 +42,5 @@
   <string name="codelab">Codelab</string>
   <string name="resources">Resources</string>
   <string name="github_url" translatable="false">https://github.com/googlesamples/play-billing-samples</string>
-  <string name="codelab_url" translatable="false">https://developers.google.com/codelabs/play-billing-unlock-new-markets-regional-pricing</string>
+  <string name="codelab_url" translatable="false">https://goo.gle/managedCatalogueCodelab</string>
 </resources>
