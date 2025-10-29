@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:17.1.0'
 
     // Play Billing Library
-    implementation "com.android.billingclient:billing:8.0.0"
+    implementation "com.android.billingclient:billing:8.1.0"
 
     // Align kotlin versions
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.10"))
