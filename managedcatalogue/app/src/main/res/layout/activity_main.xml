@@ -142,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="227dp"
                         android:layout_marginBottom="0dp"
-                        android:contentDescription="@string/movie_title"
+                        android:contentDescription="@string/upcoming_title"
                         android:scaleType="centerCrop"
                         android:src="@drawable/upcoming_banner"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.CardImage" />

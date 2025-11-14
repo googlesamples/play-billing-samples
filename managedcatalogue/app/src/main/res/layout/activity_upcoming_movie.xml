@@ -19,7 +19,8 @@
     android:id="@+id/upcoming_movie_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".UpcomingMovieActivity">
 
     <!-- Banner Image -->
     <com.google.android.material.imageview.ShapeableImageView
@@ -39,7 +40,7 @@
     <!-- Movie Title Overlay on Banner -->
     <TextView
         android:id="@+id/upcoming_title_overlay"
-        style="@style/TextAppearance.MyApp.HeadlineMedium"
+        style="@style/TextAppearance.MyApp.HeadlineLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -86,85 +87,55 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
         android:paddingHorizontal="16dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/upcoming_movie_description"
-        app:layout_constraintBottom_toTopOf="@id/preorder_button_card">
+        app:layout_constraintBottom_toTopOf="@id/preorder_button_grp">
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:id="@+id/tag_1"
+        <com.google.android.material.chip.ChipGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mystery_tag"
-            android:enabled="false"
-            android:minWidth="0dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="6dp"
-            app:iconPadding="0dp"
-            android:textColor="#444746"
-            app:strokeColor="#C4C7C5"
-            app:cornerRadius="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_height="match_parent"
+            android:clickable="false">
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:id="@+id/tag_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:enabled="false"
-            android:minWidth="0dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="6dp"
-            app:iconPadding="0dp"
-            android:text="@string/adventure_tag"
-            android:textColor="#444746"
-            app:cornerRadius="8dp"
-            app:strokeColor="#C4C7C5"/>
-    </LinearLayout>
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MyApp.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/adventure_tag"/>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/preorder_button_card"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="#0B57D0"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="0dp"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MyApp.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/mystery_tag" />
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout> 
+
+    <com.google.android.material.button.MaterialButtonGroup
+        android:id="@+id/preorder_button_grp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.MaterialButtonGroup.Connected"
+        android:spacing="2dp"
+        android:weightSum="1"
+        app:innerCornerSize="6dp"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tags_layout"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1">
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MyApp.Button"
+            android:id="@+id/preorder_button"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/preorder_button_text" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/preorder_button"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="@string/preorder_button_text"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="0dp" />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.button.MaterialButtonGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

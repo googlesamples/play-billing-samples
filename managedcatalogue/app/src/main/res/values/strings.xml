@@ -35,6 +35,7 @@
   <string name="star_rating_content_description">Star rating</string>
   <string name="tomato_rating_content_description">Rotten Tomato rating</string>
   <string name="price_unavailable">Price unavailable</string>
+  <string name="release_date_text">Releasing on <xliff:g id="date">%1$s</xliff:g></string>
   <string name="buy_for_button_text">Buy for <xliff:g id="price">%1$s</xliff:g></string>
   <string name="rent_for_button_text">Rent for <xliff:g id="price">%1$s</xliff:g></string>
   <string name="github">GitHub</string>
@@ -43,4 +44,5 @@
   <string name="resources">Resources</string>
   <string name="github_url" translatable="false">https://github.com/googlesamples/play-billing-samples</string>
   <string name="codelab_url" translatable="false">https://goo.gle/managedCatalogueCodelab</string>
+  <string name="preorder_at_button_text">Preorder at <xliff:g id="price">%1$s</xliff:g></string>
 </resources>

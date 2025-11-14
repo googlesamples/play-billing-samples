@@ -30,78 +30,104 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.play.billing.samples.managedcatalogue.billing.BillingServiceClient;
 import com.google.play.billing.samples.managedcatalogue.billing.BillingServiceClientListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** This is the main activity class */
 public class MainActivity extends AppCompatActivity implements BillingServiceClientListener {
 
   private static final String TRENDING_MOVIE_PRODUCT_ID = "trending_movie_1";
+  private static final String UPCOMING_MOVIE_PRODUCT_ID = "upcoming_movie_1";
   private static final String TAG = "BillingServiceClient";
 
   private BillingServiceClient billingServiceClient;
   private NestedScrollView landingPage;
 
-  private TextView movieTitle, movieDesc, moviePrice;
-  private MaterialCardView trendingMovieCard;
-  private AtomicBoolean isProductFound = new AtomicBoolean(false);
-  private String productName;
-  private String productDescription;
+  private TextView trendingMovieTitle, trendingMovieDesc, trendingMoviePrice;
+  private TextView upcomingMovieTitle, upcomingMovieDesc, upcomingMoviePrice;
+  private MaterialCardView trendingMovieCard, upcomingMovieCard;
+  private AtomicBoolean isTrendingProductFound = new AtomicBoolean(false);
+  private AtomicBoolean isUpcomingProductFound = new AtomicBoolean(false);
+  private String trendingProductName, upcomingProductName;
+  private String trendingProductDescription, upcomingProductDescription;
   private MaterialButton licenseButton, githubButton, codelabButton;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        landingPage = findViewById(R.id.landing_page);
-        trendingMovieCard = findViewById(R.id.trending_movie_card);
+    landingPage = findViewById(R.id.landing_page);
+    trendingMovieCard = findViewById(R.id.trending_movie_card);
+    upcomingMovieCard = findViewById(R.id.upcoming_movie_card);
 
-        movieTitle = findViewById(R.id.trending_movie_title);
-        movieDesc = findViewById(R.id.trending_movie_desc);
-        moviePrice = findViewById(R.id.trending_movie_price);
+    trendingMovieTitle = findViewById(R.id.trending_movie_title);
+    trendingMovieDesc = findViewById(R.id.trending_movie_desc);
+    trendingMoviePrice = findViewById(R.id.trending_movie_price);
+    // Upcoming movie section
+    upcomingMovieTitle = findViewById(R.id.upcoming_movie_title);
+    upcomingMovieDesc = findViewById(R.id.upcoming_movie_desc);
+    upcomingMoviePrice = findViewById(R.id.upcoming_movie_price);
 
-        billingServiceClient = new BillingServiceClient(this, this);
-        trendingMovieCard.setOnClickListener(v -> {
-            if(isProductFound.get()) {
+    billingServiceClient = new BillingServiceClient(this, this);
+    trendingMovieCard.setOnClickListener(
+        v -> {
+          if (isTrendingProductFound.get()) {
             Intent intent = new Intent(MainActivity.this, TrendingMovieActivity.class);
             intent.putExtra("productId", TRENDING_MOVIE_PRODUCT_ID);
-            intent.putExtra("productName", productName);
-            intent.putExtra("productDescription", productDescription);
+            intent.putExtra("productName", trendingProductName);
+            intent.putExtra("productDescription", trendingProductDescription);
             startActivity(intent);
-            }
+          }
+        });
+    upcomingMovieCard.setOnClickListener(
+        v -> {
+          if (isUpcomingProductFound.get()) {
+            Intent intent = new Intent(MainActivity.this, UpcomingMovieActivity.class);
+            intent.putExtra("productId", UPCOMING_MOVIE_PRODUCT_ID);
+            intent.putExtra("productName", upcomingProductName);
+            intent.putExtra("productDescription", upcomingProductDescription);
+            startActivity(intent);
+          }
         });
 
-        licenseButton = findViewById(R.id.license_button);
-        licenseButton.setOnClickListener(
-            v -> {
-              startActivity(new Intent(this, OssLicensesMenuActivity.class));
-            });
-        githubButton = findViewById(R.id.github_button);
-        githubButton.setOnClickListener(
-            v -> {
-              Intent intent = new Intent(Intent.ACTION_VIEW);
-              intent.setData(Uri.parse(getString(R.string.github_url)));
-              startActivity(intent);
-            });
-        codelabButton = findViewById(R.id.codelabs_button);
-        codelabButton.setOnClickListener(
-            v -> {
-              Intent intent = new Intent(Intent.ACTION_VIEW);
-              intent.setData(Uri.parse(getString(R.string.codelab_url)));
-              startActivity(intent);
-            });
+    licenseButton = findViewById(R.id.license_button);
+    licenseButton.setOnClickListener(
+        v -> {
+          startActivity(new Intent(this, OssLicensesMenuActivity.class));
+        });
+    githubButton = findViewById(R.id.github_button);
+    githubButton.setOnClickListener(
+        v -> {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse(getString(R.string.github_url)));
+          startActivity(intent);
+        });
+    codelabButton = findViewById(R.id.codelabs_button);
+    codelabButton.setOnClickListener(
+        v -> {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse(getString(R.string.codelab_url)));
+          startActivity(intent);
+        });
 
-        queryProducts();
+    queryProducts();
   }
 
   private void queryProducts() {
-    List<Product> productList = List.of(
-                Product.newBuilder()
-                        .setProductId(TRENDING_MOVIE_PRODUCT_ID)
-                        .setProductType(ProductType.INAPP)
-                        .build()
-        );
+    List<Product> productList =
+        List.of(
+            Product.newBuilder()
+                .setProductId(TRENDING_MOVIE_PRODUCT_ID)
+                .setProductType(ProductType.INAPP)
+                .build(),
+            Product.newBuilder()
+                .setProductId(UPCOMING_MOVIE_PRODUCT_ID)
+                .setProductType(ProductType.INAPP)
+                .build());
     billingServiceClient.startBillingConnection(productList);
   }
 
@@ -111,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements BillingServiceCli
         () -> {
           for (ProductDetails productDetails : productDetailsList) {
             if (TRENDING_MOVIE_PRODUCT_ID.equals(productDetails.getProductId())) {
-              isProductFound.set(true);
-              productName = productDetails.getName();
-              productDescription = productDetails.getDescription();
-              productDescription = productDescription.replace("\n", "");
-              movieTitle.setText(productName);
-              movieDesc.setText(R.string.default_movie_desc);
+              isTrendingProductFound.set(true);
+              trendingProductName = productDetails.getName();
+              trendingProductDescription = productDetails.getDescription();
+              trendingProductDescription = trendingProductDescription.replace("\n", "");
+              trendingMovieTitle.setText(trendingProductName);
+              trendingMovieDesc.setText(R.string.default_movie_desc);
 
               List<ProductDetails.OneTimePurchaseOfferDetails> offerDetailsList =
                   productDetails.getOneTimePurchaseOfferDetailsList();
@@ -130,27 +156,62 @@ public class MainActivity extends AppCompatActivity implements BillingServiceCli
                 }
               }
               if (priceToDisplay != null) {
-                moviePrice.setText(getString(R.string.default_movie_price, priceToDisplay));
+                trendingMoviePrice.setText(getString(R.string.default_movie_price, priceToDisplay));
               } else {
-                moviePrice.setText(R.string.price_unavailable);
+                trendingMoviePrice.setText(R.string.price_unavailable);
+              }
+            }
+            if (UPCOMING_MOVIE_PRODUCT_ID.equals(productDetails.getProductId())) {
+              isUpcomingProductFound.set(true);
+              // Setting these to pass in intents
+              upcomingProductName = productDetails.getName();
+              upcomingProductDescription = productDetails.getDescription();
+              upcomingProductDescription = upcomingProductDescription.replace("\n", "");
+              upcomingMovieTitle.setText(upcomingProductName);
+
+              List<ProductDetails.OneTimePurchaseOfferDetails> offerDetailsList =
+                  productDetails.getOneTimePurchaseOfferDetailsList();
+              String priceToDisplay = null;
+              for (ProductDetails.OneTimePurchaseOfferDetails offerDetails : offerDetailsList) {
+                if (offerDetails.getPreorderDetails() != null) {
+                  long releaseTimeMillis =
+                      offerDetails.getPreorderDetails().getPreorderReleaseTimeMillis();
+                  SimpleDateFormat sdf =
+                      new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
+                  String formattedDate = sdf.format(new Date(releaseTimeMillis));
+                  upcomingMovieDesc.setText(getString(R.string.release_date_text, formattedDate));
+                  priceToDisplay = offerDetails.getFormattedPrice();
+                } else if (priceToDisplay == null) {
+                  upcomingMovieDesc.setText(R.string.coming_soon_text);
+                  priceToDisplay = offerDetails.getFormattedPrice();
+                }
+              }
+              if (priceToDisplay != null) {
+                upcomingMoviePrice.setText(
+                    getString(R.string.preorder_at_button_text, priceToDisplay));
+              } else {
+                upcomingMoviePrice.setText(R.string.price_unavailable);
               }
             }
           }
-          if (!isProductFound.get()) {
-            movieDesc.setText(R.string.movie_unavailable_text);
+          if (!isUpcomingProductFound.get()) {
+            upcomingMovieDesc.setText(R.string.movie_unavailable_text);
+          }
+          if (!isTrendingProductFound.get()) {
+            trendingMovieDesc.setText(R.string.movie_unavailable_text);
           }
         });
   }
 
   @Override
-    public void onBillingSetupFailed(BillingResult billingResult) {
+  public void onBillingSetupFailed(BillingResult billingResult) {
     runOnUiThread(
         () -> {
           Toast.makeText(
                   this, "Billing Error: " + billingResult.getDebugMessage(), Toast.LENGTH_LONG)
               .show();
         });
-    }
+  }
 
   @Override
   public void onBillingError(String errorMsg) {
