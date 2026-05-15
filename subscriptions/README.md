@@ -29,7 +29,7 @@ your Google Play Console.
 To learn more about how to configure subscriptions in the Google Play
 Console, build and test this sample app, and process Subscription Replacements,
 refer to the codelab: [Implement Subscription replacements with Google Play
-Billing](https://codelabs.developers.google.com/play-billing-subs-replacement).
+Billing](https://codelabs.developers.google.com/codelabs/play-billing-subs-replacement).
 
 ## Contributing
 
