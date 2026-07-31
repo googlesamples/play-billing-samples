@@ -9,7 +9,7 @@ android_local_test(
     name = "BillingServiceClientTest",
     srcs = ["BillingServiceClientTest.java"],
     manifest_values = {
-        "minSdkVersion": "23",
+        "minSdkVersion": "24",
         "targetSdkVersion": "36",
         "theme": "@style/Theme.AppCompat",
     },
